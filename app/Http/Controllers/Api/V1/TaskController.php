@@ -10,8 +10,6 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use Illuminate\Support\Facades\Gate;
 
-use function Laravel\Prompts\error;
-
 class TaskController extends Controller
 {
 

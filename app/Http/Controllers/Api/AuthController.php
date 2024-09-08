@@ -23,10 +23,11 @@ class AuthController extends Controller
         if($user && Hash::check($request->password, $user->password)){
             $token = $user->createToken($user->name);
 
-            return[
+            return response()->json([
                 'user' => UserResource::make($user),
-                'token' => TokenResource::make($token),
-            ];
+                'message' => 'Logged in successfully',
+                'token' => $token->plainTextToken,
+            ])->cookie('auth_token',$token->plainTextToken, 60, null, null, true, true);
         }
 
         return [
@@ -35,7 +36,7 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        $request->user()->tokens()->delete();
+        $request->user()->currentAccessToken()->delete();
 
         return [
             "message" => "Logout Successfully",
